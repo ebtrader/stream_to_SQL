@@ -1,0 +1,6 @@
+(MainThread) 220610_04:08:47.295 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:uscrypto
+(MainThread) 220610_04:08:47.296 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:usfarm
+(MainThread) 220610_04:08:47.296 ERROR wrapper.py:56 ERROR -1 2106 HMDS data farm connection is OK:ushmds
+(MainThread) 220610_04:08:47.296 ERROR wrapper.py:56 ERROR -1 2158 Sec-def data farm connection is OK:secdefnj
+(MainThread) 220610_04:08:47.845 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:usfuture
+(MainThread) 220610_04:08:47.955 ERROR wrapper.py:56 ERROR 2002 2152 Need additional market data permissions - Depth: GLOBEX; 

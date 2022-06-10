@@ -1,0 +1,8 @@
+(MainThread) 220610_04:11:39.089 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:uscrypto
+(MainThread) 220610_04:11:39.089 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:usfuture
+(MainThread) 220610_04:11:39.089 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:usfarm
+(MainThread) 220610_04:11:39.090 ERROR wrapper.py:56 ERROR -1 2106 HMDS data farm connection is OK:ushmds
+(MainThread) 220610_04:11:39.090 ERROR wrapper.py:56 ERROR -1 2158 Sec-def data farm connection is OK:secdefnj
+(MainThread) 220610_04:11:39.390 ERROR wrapper.py:56 ERROR -1 2108 Market data farm connection is inactive but should be available upon demand.usfuture
+(MainThread) 220610_04:11:39.393 ERROR wrapper.py:56 ERROR -1 2108 Market data farm connection is inactive but should be available upon demand.usfuture
+(MainThread) 220610_04:11:39.833 ERROR wrapper.py:56 ERROR -1 2104 Market data farm connection is OK:usfarm.nj
