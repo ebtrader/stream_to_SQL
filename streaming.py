@@ -155,7 +155,7 @@ class TestApp(EWrapper, EClient):
         # self.orderOperations_cancel()
         # self.accountOperations_cancel()
         # self.tickDataOperations_cancel()
-        self.marketDepthOperations_cancel()
+        # self.marketDepthOperations_cancel()
         # self.realTimeBarsOperations_cancel()
         # self.historicalDataOperations_cancel()
         # self.optionsOperations_cancel()
@@ -194,9 +194,9 @@ class TestApp(EWrapper, EClient):
 
         self.contract.symbol = 'NQ'
         self.contract.secType = 'FUT'
-        self.contract.exchange = 'GLOBEX'
+        self.contract.exchange = 'CME'
         self.contract.currency = 'USD'
-        self.contract.lastTradeDateOrContractMonth = "202206"
+        self.contract.lastTradeDateOrContractMonth = "202309"
 
         self.reqTickByTickData(19002, self.contract, "AllLast", 0, False)
 
@@ -311,7 +311,7 @@ def main():
         if args.global_cancel:
             app.globalCancelOnly = True
         # ! [connect]
-        app.connect("127.0.0.1", args.port, clientId=5)
+        app.connect("127.0.0.1", args.port, clientId=10)
         # ! [connect]
         print("serverVersion:%s connectionTime:%s" % (app.serverVersion(),
                                                       app.twsConnectionTime()))
