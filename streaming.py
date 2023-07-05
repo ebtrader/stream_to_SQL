@@ -154,7 +154,7 @@ class TestApp(EWrapper, EClient):
         print("Executing cancels")
         # self.orderOperations_cancel()
         # self.accountOperations_cancel()
-        # self.tickDataOperations_cancel()
+        self.tickDataOperations_cancel()
         # self.marketDepthOperations_cancel()
         # self.realTimeBarsOperations_cancel()
         # self.historicalDataOperations_cancel()
