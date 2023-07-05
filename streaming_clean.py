@@ -32,9 +32,9 @@ class TestApp(EWrapper, EClient):
 
         self.contract.symbol = 'NQ'
         self.contract.secType = 'FUT'
-        self.contract.exchange = 'GLOBEX'
+        self.contract.exchange = 'CME'
         self.contract.currency = 'USD'
-        self.contract.lastTradeDateOrContractMonth = "202206"
+        self.contract.lastTradeDateOrContractMonth = "202209"
 
         self.reqTickByTickData(19002, self.contract, "AllLast", 0, False)
 
