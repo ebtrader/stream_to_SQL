@@ -1,21 +1,8 @@
-import mysql.connector
-import csv
 import argparse
-import datetime
-
-import collections
-import inspect
 import logging
 import os.path
 import time
-
-
-import pandas as pd
 import datetime
-from ibapi import wrapper
-from ibapi import utils
-from ibapi.client import EClient
-from ibapi.utils import iswrapper
 
 from ibapi.contract import Contract
 
@@ -166,7 +153,7 @@ class TestApp(EWrapper, EClient):
         # self.pnlOperations_cancel()
         # self.histogramOperations_cancel()
         # self.continuousFuturesOperations_cancel()
-        #self.tickByTickOperations_cancel()
+        # self.tickByTickOperations_cancel()
         print("Executing cancels ... finished")
 
     def nextOrderId(self):
@@ -243,13 +230,16 @@ class TestApp(EWrapper, EClient):
 
     def getDBConnection(self):
 
+        path3 = 'C:/Users/jsidd/PycharmProjects/text_files/word.txt'
+        with open(path3) as j:
+            word = j.read()
 
         try:
-            connection = mysql.connector.connect(host='database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com',
+            connection = mysql.connector.connect(host='localhost',
                                                  database='javeddb',
-                                                 user='admin',
-                                                 password='suite203'
-                                                 )
+                                                 user='root',
+                                                 password=word,
+                                                 auth_plugin='mysql_native_password')
 
             # print("Connection Established with DB")
             return connection

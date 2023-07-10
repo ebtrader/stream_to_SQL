@@ -1,26 +1,14 @@
-import mysql.connector
-import csv
 import argparse
-import datetime
 
-import collections
-import inspect
 import logging
 import os.path
 import time
 
-
-import pandas as pd
 import datetime
-from ibapi import wrapper
-from ibapi import utils
-from ibapi.client import EClient
-from ibapi.utils import iswrapper
 
 from ibapi.contract import Contract
 
 from ibapi.ticktype import TickType, TickTypeEnum
-from ibapi import wrapper
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
 from ibapi.utils import iswrapper
@@ -166,7 +154,7 @@ class TestApp(EWrapper, EClient):
         # self.pnlOperations_cancel()
         # self.histogramOperations_cancel()
         # self.continuousFuturesOperations_cancel()
-        #self.tickByTickOperations_cancel()
+        # self.tickByTickOperations_cancel()
         print("Executing cancels ... finished")
 
     def nextOrderId(self):
@@ -230,56 +218,8 @@ class TestApp(EWrapper, EClient):
               "Price:", price, "Size:", size, "Exch:", exchange,
               "Spec Cond:", specialConditions, "PastLimit:", tickAttribLast.pastLimit, "Unreported:",
               tickAttribLast.unreported)
-        self.persistData(reqId, time, price,
-                         size, tickAttribLast)
-
-    def persistData(self, reqId: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast):
-        #print(" inside persistData")
-        contract = self.contract
-        values = (1,self.contract.symbol, reqId, time, price, size)
-        # db = DBHelper()
-        self.insertData(values)
-
-    def getDBConnection(self):
 
 
-        try:
-            connection = mysql.connector.connect(host='database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com',
-                                                 database='javeddb',
-                                                 user='admin',
-                                                 password='suite203'
-                                                 )
-
-            # print("Connection Established with DB")
-            return connection
-
-        except mysql.connector.Error as error:
-            print("Failed to connect to DB {}".format(error))
-            if (connection.is_connected()):
-                connection.close()
-                print("MySQL connection is closed")
-
-    def insertData(self, values):
-
-        try:
-            connection = self.getDBConnection()
-            mySql_insert_query = """INSERT INTO tick_by_tick_all_last (ticker_id, ticker_name, transaction_id, time, price, tick_size) 
-                                   VALUES (%s, %s, %s, %s, %s, %s) """
-
-            cursor = connection.cursor(prepared=True)
-            cursor.execute(mySql_insert_query, values)
-            connection.commit()
-            # print(cursor.rowcount, "Record inserted successfully into tick_by_tick_all_last table")
-            cursor.close()
-
-        except mysql.connector.Error as error:
-            print("Failed to insert record into tick_by_tick_all_last table {}".format(error))
-
-        finally:
-            if (connection.is_connected()):
-                connection.close()
-                # print("MySQL connection is closed")
 
 
 def main():

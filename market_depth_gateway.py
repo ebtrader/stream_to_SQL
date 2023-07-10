@@ -11,22 +11,21 @@ import time
 
 
 import pandas as pd
-import datetime
+from datetime import datetime
 from ibapi import wrapper
 from ibapi import utils
 from ibapi.client import EClient
 from ibapi.utils import iswrapper
 
-from ibapi.contract import Contract
-
 from ibapi.ticktype import TickType, TickTypeEnum
 from ibapi import wrapper
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
-from ibapi.utils import iswrapper
 # types
 from ibapi.common import *  # @UnusedWildImport
 from ibapi.order import *  # @UnusedWildImport
+
+from ibapi.contract import Contract
 
 
 def SetupLogger():
@@ -88,6 +87,7 @@ class TestApp(EWrapper, EClient):
     def __init__(self):
         EWrapper.__init__(self)
         EClient.__init__(self, wrapper=self)
+        #self.df = pd.DataFrame(columns=['reqid', 'Position', 'Operation', 'Side', 'Price', 'Size', 'Time'])
         # ! [socket_init]
         self.nKeybInt = 0
         self.started = False
@@ -138,7 +138,8 @@ class TestApp(EWrapper, EClient):
             self.reqGlobalCancel()
         else:
             print("Executing requests")
-            self.tickDataOperations_req()
+            #self.tickDataOperations_req()
+            self.marketDepthOperations_req()
 
             print("Executing requests ... finished")
 
@@ -154,8 +155,8 @@ class TestApp(EWrapper, EClient):
         print("Executing cancels")
         # self.orderOperations_cancel()
         # self.accountOperations_cancel()
-        self.tickDataOperations_cancel()
-        # self.marketDepthOperations_cancel()
+        #self.tickDataOperations_cancel()
+        self.marketDepthOperations_cancel()
         # self.realTimeBarsOperations_cancel()
         # self.historicalDataOperations_cancel()
         # self.optionsOperations_cancel()
@@ -166,7 +167,7 @@ class TestApp(EWrapper, EClient):
         # self.pnlOperations_cancel()
         # self.histogramOperations_cancel()
         # self.continuousFuturesOperations_cancel()
-        #self.tickByTickOperations_cancel()
+        # self.tickByTickOperations_cancel()
         print("Executing cancels ... finished")
 
     def nextOrderId(self):
@@ -186,70 +187,17 @@ class TestApp(EWrapper, EClient):
     def winError(self, text: str, lastError: int):
         super().winError(text, lastError)
 
-
-
-    @printWhenExecuting
-    def tickDataOperations_req(self):
-        # Create contract object
-
-        self.contract.symbol = 'NQ'
-        self.contract.secType = 'FUT'
-        self.contract.exchange = 'CME'
-        self.contract.currency = 'USD'
-        self.contract.lastTradeDateOrContractMonth = "202309"
-
-        self.reqTickByTickData(19002, self.contract, "AllLast", 0, False)
-
-
-    def historicalData(self, reqId:int, bar: BarData):
-        print("HistoricalData. ReqId:", reqId, "BarData.", bar)
-        logging.debug("ReqId:", reqId, "BarData.", bar)
-
-
-    @iswrapper
-    def tickPrice(self, tickerId: TickerId , tickType: TickType, price: float, attrib):
-        super().tickPrice(tickerId, tickType, price, attrib)
-        print("Tick Price, Ticker Id:", tickerId, "tickType:", TickTypeEnum.to_str(tickType), "Price:", price, " Time:", attrib.time, file=sys.stderr, end= " ")
-
-    @iswrapper
-    def tickSize(self, tickerId: TickerId, tickType: TickType, size: int):
-        super().tickSize(tickerId, tickType, size)
-        print( "Tick Size, Ticker Id:",tickerId,  "tickType:", TickTypeEnum.to_str(tickType),  "Size:", size, file=sys.stderr)
-
-    def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast, exchange: str,
-                          specialConditions: str):
-        super().tickByTickAllLast(reqId, tickType, time, price, size, tickAttribLast,
-                                  exchange, specialConditions)
-        if tickType == 1:
-            print("Last.", end='')
-        else:
-            print("AllLast.", end='')
-        print(" ReqId:", reqId,
-              "Time:", datetime.datetime.fromtimestamp(time).strftime("%Y%m%d %H:%M:%S"),
-              "Price:", price, "Size:", size, "Exch:", exchange,
-              "Spec Cond:", specialConditions, "PastLimit:", tickAttribLast.pastLimit, "Unreported:",
-              tickAttribLast.unreported)
-        self.persistData(reqId, time, price,
-                         size, tickAttribLast)
-
-    def persistData(self, reqId: int, time: int, price: float,
-                          size: int, tickAttribLast: TickAttribLast):
-        #print(" inside persistData")
-        contract = self.contract
-        values = (1,self.contract.symbol, reqId, time, price, size)
-        # db = DBHelper()
-        self.insertData(values)
-
     def getDBConnection(self):
-
+        path3 = 'C:/Users/jsidd/PycharmProjects/text_files/word.txt'
+        with open(path3) as j:
+            word = j.read()
 
         try:
-            connection = mysql.connector.connect(host='database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com',
+            connection = mysql.connector.connect(host='localhost',
                                                  database='javeddb',
-                                                 user='admin',
-                                                 password='suite203'
-                                                 )
+                                                 user='root',
+                                                 password=word,
+                                                 auth_plugin='mysql_native_password')
 
             # print("Connection Established with DB")
             return connection
@@ -264,8 +212,9 @@ class TestApp(EWrapper, EClient):
 
         try:
             connection = self.getDBConnection()
-            mySql_insert_query = """INSERT INTO tick_by_tick_all_last (ticker_id, ticker_name, transaction_id, time, price, tick_size) 
-                                   VALUES (%s, %s, %s, %s, %s, %s) """
+            # print("I am on line 61")
+            mySql_insert_query = """INSERT INTO updatemarketdepth (ReqId, POSITION, Operation, Side, Price, SIZE, timestamp) 
+                                   VALUES (%s, %s, %s, %s, %s, %s, %s) """
 
             cursor = connection.cursor(prepared=True)
             cursor.execute(mySql_insert_query, values)
@@ -280,6 +229,65 @@ class TestApp(EWrapper, EClient):
             if (connection.is_connected()):
                 connection.close()
                 # print("MySQL connection is closed")
+
+
+    @printWhenExecuting
+    def marketDepthOperations_req(self):
+        # Requesting the Deep Book
+        # ! [reqmarketdepth]
+        #self.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, False, [])
+
+        #self.reqMktDepth(2001, ContractSamples.USStock(), 5, True, [])
+        self.contract.symbol = 'QQQ'
+        self.contract.secType = 'STK'
+        self.contract.exchange = 'SMART'
+        self.contract.currency = 'USD'
+        # self.contract.lastTradeDateOrContractMonth = "202206"
+
+        self.reqMktDepth(2002, self.contract, 5, True, [])
+        # ! [reqmarketdepth]
+
+        # ! [reqmarketdepth]
+        #self.reqMktDepth(2002, ContractSamples.EuropeanStock(), 5, True, [])
+        # ! [reqmarketdepth]
+
+        # Request list of exchanges sending market depth to UpdateMktDepthL2()
+        # ! [reqMktDepthExchanges]
+        # self.reqMktDepthExchanges()
+        # ! [reqMktDepthExchanges]
+
+    @printWhenExecuting
+    def marketDepthOperations_cancel(self):
+        # Canceling the Deep Book request
+        # ! [cancelmktdepth]
+        self.cancelMktDepth(2001, False)
+        self.cancelMktDepth(2002, True)
+        # ! [cancelmktdepth]
+
+    @iswrapper
+    # ! [updatemktdepthl2]
+    def updateMktDepthL2(self, reqId: TickerId, position: int, marketMaker: str,
+                         operation: int, side: int, price: float, size: int, isSmartDepth: bool):
+        super().updateMktDepthL2(reqId, position, marketMaker, operation, side,
+                                 price, size, isSmartDepth)
+        now = datetime.now()
+        timestamp = now.strftime("%d/%m/%Y %H:%M:%S")
+        print("UpdateMarketDepthL2. ReqId:", reqId, "Position:", position, "Operation:",
+              operation, "Side:", side, "Price:", price, "Size:", size, "Time:", timestamp)
+        self.persistData(reqId, position, operation, side, price, size, timestamp)
+        #self.df.loc[len(self.df)] = [reqId, position, operation, side, price, size, timestamp]
+        #self.df.to_csv('program_L2.csv')
+    # ! [updatemktdepthl2]
+
+    def persistData(self, reqId: TickerId, position: int, operation: int,
+                       side: int, price: float, size: int, timestamp: str):
+        #print("current datetime stamp is : {}".format(datetime))
+
+
+        values = (reqId, position, operation, side, price, size, timestamp)
+
+        self.insertData(values)
+
 
 
 def main():
@@ -308,7 +316,7 @@ def main():
         if args.global_cancel:
             app.globalCancelOnly = True
         # ! [connect]
-        app.connect("127.0.0.1", args.port, clientId=10)
+        app.connect("127.0.0.1", args.port, clientId=0)
         # ! [connect]
         print("serverVersion:%s connectionTime:%s" % (app.serverVersion(),
                                                       app.twsConnectionTime()))
