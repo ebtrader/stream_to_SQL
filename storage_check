@@ -1,0 +1,1 @@
+select table_name, data_length, index_length from information_schema.tables where table_name='tick_by_tick_all_last';
