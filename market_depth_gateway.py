@@ -188,16 +188,11 @@ class TestApp(EWrapper, EClient):
         super().winError(text, lastError)
 
     def getDBConnection(self):
-        path3 = 'C:/Users/jsidd/PycharmProjects/text_files/word.txt'
-        with open(path3) as j:
-            word = j.read()
-
         try:
-            connection = mysql.connector.connect(host='localhost',
+            connection = mysql.connector.connect(host='database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com',
                                                  database='javeddb',
-                                                 user='root',
-                                                 password=word,
-                                                 auth_plugin='mysql_native_password')
+                                                 user='admin',
+                                                 password='suite203')
 
             # print("Connection Established with DB")
             return connection
@@ -238,11 +233,11 @@ class TestApp(EWrapper, EClient):
         #self.reqMktDepth(2001, ContractSamples.EurGbpFx(), 5, False, [])
 
         #self.reqMktDepth(2001, ContractSamples.USStock(), 5, True, [])
-        self.contract.symbol = 'QQQ'
-        self.contract.secType = 'STK'
-        self.contract.exchange = 'SMART'
+        self.contract.symbol = 'NQ'
+        self.contract.secType = 'FUT'
+        self.contract.exchange = 'CME'
         self.contract.currency = 'USD'
-        # self.contract.lastTradeDateOrContractMonth = "202206"
+        self.contract.lastTradeDateOrContractMonth = "202309"
 
         self.reqMktDepth(2002, self.contract, 5, True, [])
         # ! [reqmarketdepth]
