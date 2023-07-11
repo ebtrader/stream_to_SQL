@@ -1,0 +1,6 @@
+@reboot DISPLAY=:0 /home/ubuntu/opt/ibc/gatewaystart.sh
+#56 6 * * * ~/env/bin/python3 /home/ubuntu/streaming_ec2.py
+#53 6 * * * ~/env/bin/python3 /home/ubuntu/market_depth_gateway.py
+#6-59/10 * * * * /home/ubuntu/monitor_update.sh
+#8-59/10 * * * * /home/ubuntu/monitor_streaming.sh
+# Edit this file to introduce tasks to be run by cron.
