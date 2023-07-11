@@ -1,0 +1,22 @@
+
+[Unit]
+
+Description=Job that runs the Xvfb – Virtual Framebuffer 'fake' X server
+
+After=network.target
+
+
+[Service]
+
+ExecStart=/usr/bin/Xvfb :0 -ac -screen 0 1024x768x24
+
+[Install]
+
+WantedBy=multi-user.target
+
+
+# this file came from: https://dimon.ca/how-to-setup-ibc-and-tws-on-headless-ubuntu-in-10-minutes/
+
+# also see (for "templatized approach"):
+
+# http://superuser.com/questions/319040/proper-way-to-start-xvfb-on-startup-on-centos/912648#912648

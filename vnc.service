@@ -1,0 +1,23 @@
+[Unit]
+
+Description=Job that runs the VNC server to allow remote access to an existing X session
+
+Requires=xvfb.service
+
+After=xvfb.service
+
+
+[Service]
+
+Type=forking
+
+ExecStart=/usr/bin/x11vnc -ncache 10 -ncache_cr -viewpasswd suite203 -passwd suite203 -display :0 -forever -shared -bg -noipv6
+
+
+
+[Install]
+
+WantedBy=multi-user.target
+
+
+# this file came from: https://dimon.ca/how-to-setup-ibc-and-tws-on-headless-ubuntu-in-10-minutes/
