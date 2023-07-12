@@ -7,3 +7,6 @@ for checking if python script is running and then re-runs if not running:
 https://stackoverflow.com/questions/2366693/run-cron-job-only-if-it-isnt-already-running
 
 mysql -h database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+
+sudo chmod u+x monitor_update.sh
+
