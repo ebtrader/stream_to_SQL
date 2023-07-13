@@ -11,3 +11,5 @@ mysql -h database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
 sudo chmod u+x monitor_update.sh
 
 https://chat.openai.com/share/5d9dda01-8d32-4b10-ba01-dede6e4b5fa8
+
+ssh -i C:\\Users\jsidd\Documents\gcp\my-key -v jsidd@34.75.41.60
