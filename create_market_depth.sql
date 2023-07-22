@@ -1,4 +1,4 @@
-CREATE TABLE `updatemarketdepth` (
+CREATE TABLE javeddb.updatemarketdepth (
   `id` int NOT NULL AUTO_INCREMENT,
   `ReqId` int NOT NULL,
   `POSITION` int NOT NULL,
