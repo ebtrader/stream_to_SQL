@@ -19,3 +19,14 @@ ssh -i /path/to/your/private_key.pem -L 5901:localhost:5901 -N -f ubuntu@your_ec
 https://medium.com/@piyushraj246800/your-guide-to-vnc-server-on-gcp-ed8255c81b43
 
 ssh -i my-key -L 5901:localhost:5901 -N -f jsidd@34.75.41.60
+
+market_dept_gateway.py
+
+create_market-depth.sql
+
+create_update_market_depth.py
+
+market_depth_gateway.py
+
+test_inserts8.py
+
