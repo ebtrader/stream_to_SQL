@@ -192,7 +192,7 @@ class TestApp(EWrapper, EClient):
             connection = mysql.connector.connect(host='database-1.c3dig9vjwrmk.us-east-1.rds.amazonaws.com',
                                                  database='javeddb',
                                                  user='admin',
-                                                 password='suite203')
+                                                 password='word')
 
             # print("Connection Established with DB")
             return connection
